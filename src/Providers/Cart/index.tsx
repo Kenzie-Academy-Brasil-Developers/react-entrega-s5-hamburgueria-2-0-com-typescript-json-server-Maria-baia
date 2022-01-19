@@ -26,6 +26,7 @@ interface CartProviderData {
     cart: Product[];
     addProduct: (product: Product) => void;
     deleteProduct: (product: number) => void;
+    setCart: (product: Product[]) => void;
 }
 
 const CartContext = createContext<CartProviderData>({} as CartProviderData);
@@ -64,7 +65,7 @@ export const CartProvider = ({ children }: CartProps) => {
     };
 
     return (
-        <CartContext.Provider value={{ cart, addProduct, deleteProduct }}>
+        <CartContext.Provider value={{ cart, addProduct, deleteProduct, setCart }}>
             {children}
         </CartContext.Provider>
     );

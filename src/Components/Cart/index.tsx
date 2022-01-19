@@ -5,7 +5,8 @@ import { ModalStyled, ButtonStyled, BoxStyled } from "./style";
 import { AiOutlineClose, AiOutlineMinus  } from "react-icons/ai";
 import { useState } from "react";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import { IoIosAdd } from "react-icons/io"
+import { IoIosAdd } from "react-icons/io";
+import { ButtonGrey } from "../../Styles/ButtonGrey/style";
 
 interface CartProps {
     open: boolean;
@@ -13,9 +14,9 @@ interface CartProps {
 }
 
 const Cart = ({open, handleClose}: CartProps) => {
-    const {cart, deleteProduct} = useCart();
+    const {cart, deleteProduct, setCart} = useCart();
     const [number, setNumber] = useState([1, 1, 1, 1, 1, 1, 1, 1]);
-    // const [ total, setTotal ] = useState([0]);
+    let total = 0;
 
     const removeItem = (id: number, index: number) => {
         if(number[index] === 1) {
@@ -29,6 +30,10 @@ const Cart = ({open, handleClose}: CartProps) => {
         number.splice(index, 1, number[index]+1);
     }
 
+    const removeAll = () => {
+        setCart([]);
+    }
+
     return (
         <>
             <ModalStyled open={open} aria-labelledby="modal-modal-title"
@@ -40,8 +45,9 @@ const Cart = ({open, handleClose}: CartProps) => {
                         <AiOutlineClose onClick={handleClose} />
                     </div>
                     <ul>
-                        {cart.length > 0 ?
-                        cart.map((item, index) => (
+                        {(cart.length > 0 && number.includes(1)) ?
+                        <>
+                        {cart.map((item, index) => (
                             <li key={index}>
                                 <div className="cart-cart">
                                 <div className="itemOnCart">
@@ -52,26 +58,27 @@ const Cart = ({open, handleClose}: CartProps) => {
                                     <ButtonGroup variant="contained" size="small" color="success">
                                         <ButtonStyled onClick={() => removeItem(item.id, index)}><AiOutlineMinus/></ButtonStyled>
                                         <ButtonStyled disabled >{number[index]}</ButtonStyled>
+                                        {total += (item.price * number[index])}
                                         <ButtonStyled onClick={() => addItem(index)}><IoIosAdd/></ButtonStyled>
                                     </ButtonGroup>
                                 </div>
                                 </div>
                                 <FaTrash className="trash" onClick={() => deleteProduct(item.id)}/>
-                                {/* {setTotal([...total, item.price * number[index]])} */}
                             </li>
-                        )):
+                        ))}
+                        <div className="total">
+                                <p className="total-name">Total</p>
+                                <span className="total-valor">R$ {total},00</span>
+                        </div>
+                        <ButtonGrey onClick={removeAll}>Remover todos</ButtonGrey>
+                        </>
+                        :
                         <>
                             <h4>Sua sacola está vazia</h4>
                             <p>Adicione itens</p>
                         </>
                         }
                     </ul>
-                            <div>
-                                <p>Total</p>
-                                {/* <span>{total.reduce((anterior, atual) => (
-                                    atual + anterior
-                                ),0)}</span> */}
-                            </div>
                 </BoxStyled>
             </ModalStyled>
         </>

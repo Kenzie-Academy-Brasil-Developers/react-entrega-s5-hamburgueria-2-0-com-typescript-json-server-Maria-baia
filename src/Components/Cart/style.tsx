@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 export const ModalStyled = styled(Modal)`
+    overflow-x: scroll;
     width: 375px;
     margin-left: 20px;
     margin-top: 80px;
@@ -80,6 +81,22 @@ export const ModalStyled = styled(Modal)`
         display: flex;
         align-items: center;
         column-gap: 10px;
+    }
+    .total {
+        bakcground-color: #ffffff;
+        display: flex;
+        padding: 30px;
+        justify-content: space-between;
+    }
+    .total-name {
+        color: #333333;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .total-valor {
+        font-weight: 600;
+        font-size: 16px;
+        color: #828282;
     }
 
     @media (min-width: 768px) {
